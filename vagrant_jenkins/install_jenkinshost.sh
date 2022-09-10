@@ -48,8 +48,8 @@ sudo yum install -y curl
 # Jenkins on CentOS requires Java, but it won't work with the default (GCJ) version of Java. So, let's remove it:
 sudo yum remove -y java
 
-# install the OpenJDK version of Java 8:
-sudo yum install -y java-1.8.0-openjdk-devel
+# install the OpenJDK version of Java 11:
+sudo yum install java-11-openjdk -y
 
 # Jenkins uses 'ant' so let's make sure it is installed:
 sudo yum install -y ant
