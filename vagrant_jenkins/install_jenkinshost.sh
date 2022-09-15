@@ -19,8 +19,6 @@ sudo yum update -qq >/dev/null
 
 echo "=====> [2]: install prerequisite tools for Jenkins"
 
-# Let's install yum-presto:
-sudo yum install -y yum-presto
 
 # Although not needed for Jenkins, I like to use vim, so let's make sure it is installed:
 sudo yum install -y vim
@@ -34,11 +32,6 @@ sudo yum install -y sshpass
 # Let's install gnupg2
 sudo yum install -y gnupg2
 
-# Let's make sure that we have the EPEL and IUS repositories installed.
-# This will allow us to use newer binaries than are found in the standard CentOS repositories.
-sudo wget -N http://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-13.ius.centos7.noarch.rpm
-sudo rpm -Uvh ius-release*.rpm
-
 # gnupg2 openssl :
 sudo yum install -y openssl
 
@@ -46,18 +39,21 @@ sudo yum install -y openssl
 sudo yum install -y curl
 
 # Jenkins on CentOS requires Java, but it won't work with the default (GCJ) version of Java. So, let's remove it:
-sudo yum remove -y java
+sudo yum remove -y java*
 
 # install the OpenJDK version of Java 11:
 sudo yum install java-11-openjdk -y
 
 # Jenkins uses 'ant' so let's make sure it is installed:
-sudo yum install -y ant
 
 # Let's now install Jenkins:
+echo "===== =================> [3]: Choose Java 11 for Jenkins installation ...."
+sudo update-alternatives --set java /usr/lib/jvm/java-11-openjdk-11.0.16.0.8-1.el7_9.x86_64/bin/java
+java -version
+
 echo "=====> [3]: installing Jenkins ...."
-sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
-sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
+sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 sudo yum install -y jenkins
 
 echo "=====> [4]: updating server after jenkins installation ...."
@@ -72,4 +68,3 @@ sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
 sudo firewall-cmd --reload
 
 echo "END - install jenkins"
-
