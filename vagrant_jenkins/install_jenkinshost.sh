@@ -42,7 +42,7 @@ sudo yum install -y curl
 sudo yum remove -y java*
 
 # install the OpenJDK version of Java 11:
-sudo yum install java-11-openjdk -y
+sudo yum install java-11* -y
 
 # Jenkins uses 'ant' so let's make sure it is installed:
 
