@@ -5,10 +5,11 @@
 # Description : This is the script that will take care of the installation of Java, 
 #               Jenkins server and some utilitiess
 # Date : 03/22/2022
+#Modified by Prof on oct 2023
 #------------------------------------------------------------------------------------------------------------------#
 
 ## Recover the ip address and update the server
-IP=$(hostname -I | awk '{print $2}')
+#IP=$(hostname -I | awk '{print $2}')
 echo "START - install jenkins - "$IP
 echo "=====> [1]: updating ...."
 sudo yum update -y
@@ -47,7 +48,8 @@ sudo yum install -y curl
 sudo yum remove -y java
 
 # install the OpenJDK version of Java 8:
-sudo yum install -y java-1.8.0-openjdk-devel
+#sudo yum install -y java-1.8.0-openjdk-devel
+sudo yum install java-11* -y
 
 # Jenkins uses 'ant' so let's make sure it is installed:
 sudo yum install -y ant
@@ -55,7 +57,8 @@ sudo yum install -y ant
 # Let's now install Jenkins:
 echo "=====> [3]: installing Jenkins ...."
 sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+#sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
 
 sudo yum install -y jenkins
 
@@ -66,9 +69,10 @@ echo "=====> [5]: Start Jenkins Daemon and Enable ...."
 sudo systemctl start jenkins
 sudo systemctl enable jenkins
 
-echo "=====> [6]: Ajust Firewall ...."
-sudo yum install -y firewalld
-sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
-sudo firewall-cmd --reload
-
+#echo "=====> [6]: Ajust Firewall ...."
+#sudo yum install -y firewalld
+#sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
+#sudo firewall-cmd --reload
+echo "=====> [6]: Jenkins initial password ...."
+cat /var/lib/jenkins/secrets/initialAdminPassword
 echo "END - install jenkins"
