@@ -35,8 +35,8 @@ sudo yum install -y gnupg2
 
 # Let's make sure that we have the EPEL and IUS repositories installed.
 # This will allow us to use newer binaries than are found in the standard CentOS repositories.
-sudo wget -N http://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-13.ius.centos7.noarch.rpm
-sudo rpm -Uvh ius-release*.rpm
+sudo wget -N http://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/Packages/centos-stream-repos-9.0-26.el9.noarch.rpm
+sudo rpm -Uvh centos-stream-repos-9.0-26.el9.noarch.rpm
 
 # gnupg2 openssl :
 sudo yum install -y openssl
